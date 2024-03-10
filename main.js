@@ -22,26 +22,6 @@ class OrderWidget {
     };
   }
 
-  // Get the position of hte widget based on the position of input text id of the main page
-  getPositionDynamically() {
-    const input = document.getElementById("name");
-    const inputPosition = input.getBoundingClientRect();
-    const { top, left, right, bottom } = inputPosition;
-    const { innerHeight, innerWidth } = window;
-    const position = {};
-    if (top < innerHeight / 2) {
-      position["top"] = `${bottom + 10}px`;
-    } else {
-      position["bottom"] = `${innerHeight - top + 10}px`;
-    }
-    if (left < innerWidth / 2) {
-      position["left"] = `${left}px`;
-    } else {
-      position["right"] = `${innerWidth - right}px`;
-    }
-    return position;
-  }
-
   async initialize() {
     /**
      * Create and append a div element to the document body
@@ -108,11 +88,11 @@ class OrderWidget {
 
         <form onsubmit="handleSubmit(event)">
             <div class="form__field">
-                <label for="name">Order number</label>
+                <label for="orderNumber">Order number</label>
                 <input
                 type="text"
                 id="orderNumber"
-                name="name"
+                name="orderNumber"
                 placeholder="12345678"
                 />
             </div>
@@ -132,15 +112,16 @@ class OrderWidget {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
-    const name = document.getElementById("orderNumber").value;
-    const textName = document.getElementById("textInput").value;
-    console.log("Text Name:", textName);
-    const selectedOption = document.querySelector(
-      'input[name="options"]:checked'
-    ).value;
-    console.log("Name:", name);
-    console.log("Selected Option:", selectedOption);
+    console.log("Form Submitted");
+    // event.preventDefault();
+    // const name = document.getElementById("orderNumber").value;
+    // // const textName = document.getElementById("textInput").value;
+    // // console.log("Text Name:", textName);
+    // const selectedOption = document.querySelector(
+    //   'input[name="options"]:checked'
+    // ).value;
+    // console.log("Name:", name);
+    // console.log("Selected Option:", selectedOption);
   }
 
   injectStyles() {
@@ -153,10 +134,14 @@ class OrderWidget {
   toggleOpen() {
     this.open = !this.open;
     if (this.open) {
+      console.log("opened")
       this.widgetIcon.classList.add("widget__hidden");
       this.closeIcon.classList.remove("widget__hidden");
       this.widgetContainer.classList.remove("widget__hidden");
+
+      document.getElementById("orderNumber").value = document.getElementById("textInput");
     } else {
+      console.log("closed")
       this.createWidgetContent();
       this.widgetIcon.classList.remove("widget__hidden");
       this.closeIcon.classList.add("widget__hidden");
